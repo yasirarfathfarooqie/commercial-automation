@@ -71,6 +71,15 @@ pipeline {
     post {
         always {
             junit testResults: 'test-results/junit.xml', allowEmptyResults: true
+            // Needs the "HTML Publisher" plugin; adds "Playwright Report" to the build's left menu.
+            publishHTML(target: [
+                reportName: 'Playwright Report',
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                keepAll: true,
+                alwaysLinkToLastBuild: true,
+                allowMissing: true
+            ])
             archiveArtifacts(
                 artifacts: 'playwright-report/**,test-results/**',
                 allowEmptyArchive: true
